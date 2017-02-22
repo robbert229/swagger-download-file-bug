@@ -14,7 +14,6 @@ func init() {
     "application/json"
   ],
   "schemes": [
-    "https",
     "http"
   ],
   "swagger": "2.0",
@@ -23,7 +22,7 @@ func init() {
     "title": "Download Test",
     "version": "1.0.0"
   },
-  "host": "api.uber.com",
+  "host": "localhost:9098",
   "basePath": "/",
   "paths": {
     "/file": {

@@ -5,8 +5,7 @@ download
 
     Schemes:
       http
-      https
-    Host: api.uber.com
+    Host: localhost:9098
     BasePath: /
     Version: 1.0.0
 

@@ -10,6 +10,7 @@ import (
 	graceful "github.com/tylerb/graceful"
 
 	"github.com/robbert229/swagger-download-file-bug/restapi/operations"
+	"bitbucket.metro.ad.selinc.com/projects/SELRM/repos/go-selarium/.glide/cache/src/https-github.com-rs-cors"
 )
 
 // This file is safe to edit. Once it exists it will not be overwritten
@@ -30,16 +31,21 @@ func configureAPI(api *operations.DownloadAPI) http.Handler {
 	// Example:
 	// s.api.Logger = log.Printf
 
-	api.JSONConsumer = runtime.JSONConsumer()
+	api.MultipartformConsumer = runtime.DiscardConsumer
 
 	api.JSONProducer = runtime.JSONProducer()
 
 	api.BinProducer = runtime.ByteStreamProducer()
 
-	api.GetProductsHandler = operations.GetProductsHandlerFunc(func(params operations.GetProductsParams) middleware.Responder {
-		return middleware.NotImplemented("operation .GetProducts has not yet been implemented")
-	})
+	var file runtime.File
 
+	api.GetFileHandler = operations.GetFileHandlerFunc(func(params operations.GetFileParams) middleware.Responder {
+		return operations.NewGetFileOK().WithPayload(file)
+	})
+	api.PostFileHandler = operations.PostFileHandlerFunc(func(params operations.PostFileParams) middleware.Responder {
+		file = params.Attachment
+		return operations.NewPostFileCreated()
+	})
 
 	api.ServerShutdown = func() {}
 
@@ -67,5 +73,7 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 // The middleware configuration happens before anything, this middleware also applies to serving the swagger.json document.
 // So this is a good place to plug in a panic handling middleware, logging and metrics
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
+	handler = cors.Default().Handler(handler)
+
 	return handler
 }

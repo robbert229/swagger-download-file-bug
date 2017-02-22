@@ -1,0 +1,17 @@
+package: github.com/robbert229/swagger-download-file-bug
+import:
+- package: github.com/go-openapi/errors
+- package: github.com/go-openapi/loads
+- package: github.com/go-openapi/runtime
+  subpackages:
+  - flagext
+  - middleware
+- package: github.com/go-openapi/spec
+- package: github.com/go-openapi/strfmt
+- package: github.com/go-openapi/swag
+- package: github.com/jessevdk/go-flags
+  version: ^1.2.0
+- package: github.com/tylerb/graceful
+  version: ^1.2.15
+- package: github.com/rs/cors
+  version: ^1.0.0
